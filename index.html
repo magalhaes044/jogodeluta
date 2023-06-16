@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jogo de Luta Web</title>
+    <style>
+        #menu {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        canvas {
+            border: 1px solid black;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="menu">
+        <h1>Jogo de Luta Web</h1>
+        <button id="iniciar">Iniciar</button>
+    </div>
+
+    <canvas id="jogoCanvas" width="800" height="600"></canvas>
+
+    <script>
+        // Definindo classes dos personagens com sistemas avançados
+        class Personagem {
+            constructor(img, x, y) {
+                this.img = new Image();
+                this.img.src = img;
+                this.x = x;
+                this.y = y;
+                this.vida = 100;
+                this.velocidade = 5;
+                this.pontos = 0;
+                this.ataque = 10;
+                this.defesa = 5;
+                this.energia = 100;
+            }
+
+            desenhar(contexto) {
+                contexto.drawImage(this.img, this.x, this.y);
+            }
+
+            moverEsquerda() {
+                this.x -= this.velocidade;
+            }
+
+            moverDireita() {
+                this.x += this.velocidade;
+            }
+
+            atacar(outroPersonagem) {
+                if (this.colideCom(outroPersonagem)) {
+                    const dano = this.ataque - outroPersonagem.defesa;
+                    if (dano > 0) {
+                        outroPersonagem.vida -= dano;
+                        this.pontos += 1;
+                    }
+                }
+            }
+
+            colideCom(outroPersonagem) {
+                return (
+                    this.x < outroPersonagem.x + outroPersonagem.img.width &&
+                    this.x + this.img.width > outroPersonagem.x &&
+                    this.y < outroPersonagem.y + outroPersonagem.img.height &&
+                    this.y + this.img.height > outroPersonagem.y
+                );
+            }
+
+            recuperarEnergia() {
+                if (this.energia < 100) {
+                    this.energia += 10;
+                }
+            }
+        }
+
+        // Configurando o canvas
+        const canvas = document.getElementById("jogoCanvas");
+        const contexto = canvas.getContext("2d");
+
+        // Carregando imagens dos personagens com design melhorado e detalhado
+        const goku_img = "goku_detalhado.png";
+        const naruto_img = "naruto_detalhado.png";
+        const vegeta_img = "vegeta_detalhado.png";
+
+        // Criando instâncias dos personagens com habilidades únicas
+        const goku = new Personagem(goku_img, 100, 400);
+        const naruto = new Personagem(naruto_img, 300, 400);
+        const vegeta = new Personagem(vegeta_img, 500, 400);
+
+        // Variáveis para controle do jogo
+        let jogoIniciado = false;
+
+        // Função para iniciar o jogo ao clicar no botão "Iniciar"
+        document.getElementById("iniciar").addEventListener("click", () => {
+            jogoIniciado = true;
+            document.getElementById("menu").style.display = "none";
+            canvas.style.display = "block";
+            animarJogo();
+        });
+
+        // Função para animar o jogo
+        function animarJogo() {
+            if (!jogoIniciado) return;
+
+            // Limpar o canvas
+            contexto.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Desenhar os personagens com o design melhorado
+            goku.desenhar(contexto);
+            naruto.desenhar(contexto);
+            vegeta.desenhar(contexto);
+
+            // Colisão entre personagens e sistema de ataque
+            if (goku.colideCom(naruto)) {
+                goku.atacar(naruto);
+            }
+
+            if (goku.colideCom(vegeta)) {
+                goku.atacar(vegeta);
+            }
+
+            if (naruto.colideCom(vegeta)) {
+                naruto.atacar(vegeta);
+            }
+
+            // Renderização da barra de vida, energia e pontos
+            contexto.fillStyle = "red";
+            contexto.fillRect(10, 10, goku.vida, 10);
+            contexto.fillStyle = "blue";
+            contexto.fillRect(10, 30, naruto.vida, 10);
+            contexto.fillStyle = "green";
+            contexto.fillRect(10, 50, vegeta.vida, 10);
+
+            contexto.fillStyle = "yellow";
+            contexto.fillRect(10, 70, goku.energia, 10);
+
+            contexto.fillStyle = "black";
+            contexto.font = "16px Arial";
+            contexto.fillText(`Pontos Goku: ${goku.pontos}`, 10, 90);
+
+            // Recuperação de energia ao longo do jogo
+            goku.recuperarEnergia();
+            naruto.recuperarEnergia();
+            vegeta.recuperarEnergia();
+
+            requestAnimationFrame(animarJogo);
+        }
+    </script>
+</body>
+</html>
