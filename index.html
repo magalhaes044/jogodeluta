@@ -103,44 +103,44 @@
             goku: {
                 nome: "Goku",
                 img: "https://th.bing.com/th/id/R.cd1fac98320278586bfc71806ff9d15c?rik=o7ysHhfk%2bwfyCA&riu=http%3a%2f%2fpixelartmaker.com%2fart%2f8dbf369e3d231e7.png&ehk=a7rNQz6jha1a4d%2bK9WT0Ygw%2fADF6ZGklSTdFxgFAGr4%3d&risl=&pid=ImgRaw&r=0",
-                x: 100,
-                y: 300
+                x: 200,
+                y: 450
             },
             naruto: {
                 nome: "Naruto",
                 img: "https://th.bing.com/th/id/OIP.UCZRZiiJ2aWGHXYAK1hK6AAAAA?pid=ImgDet&rs=1",
-                x: 100,
-                y: 300
+                x: 200,
+                y: 400
             },
             vegeta: {
                 nome: "Vegeta",
                 img: "https://pixeljoint.com/files/icons/full/vegetawalkingforwardlikeabaws.gif",
-                x: 100,
-                y: 300
+                x: 200,
+                y: 400
             },
             sasuke: {
                 nome: "Sasuke",
                 img: "https://orig00.deviantart.net/91ee/f/2012/017/0/6/sasuke_avenger_sprite_by_darkest5-d4mq7p7.png",
-                x: 100,
-                y: 300
+                x: 200,
+                y: 400
             },
             gohan: {
                 nome: "Gohan",
                 img: "https://th.bing.com/th/id/R.80a707377117e681b2d66d4f9eb6ac34?rik=PvxqVCyqKK%2fvXA&riu=http%3a%2f%2fpixelartmaker-data-78746291193.nyc3.digitaloceanspaces.com%2fimage%2fa060dd22d6e53a2.png&ehk=%2bPmcqorS05vvvN4YaZoAte4mbkSbhtzMomUzD7F3WrE%3d&risl=&pid=ImgRaw&r=0",
-                x: 100,
-                y: 300
+                x: 200,
+                y: 400
             },
             boruto: {
                 nome: "Boruto",
                 img: "https://orig03.deviantart.net/f9d8/f/2013/301/c/8/c8e72cd897b5c0f72130b203b3560101-d68ksqp.png",
-                x: 100,
-                y: 300
+                x: 200,
+                y: 400
             },
             luffy: {
                 nome: "Luffy",
                 img: "https://th.bing.com/th/id/R.9e5dd039e15ef8186263eeba8efb4667?rik=gWWdYNPNAQ72bw&pid=ImgRaw&r=0",
-                x: 100,
-                y: 300
+                x: 200,
+                y: 400
             }
         };
 
@@ -173,13 +173,13 @@
                 jogador.y + 100 > adversario.y) {
                 // Implemente a lógica de ataque entre os personagens aqui
                 if (personagem.x < adversario.x + adversario.img.width &&
-        personagem.x + personagem.img.width > adversario.x &&
-        personagem.y < adversario.y + adversario.img.height &&
-        personagem.y + personagem.img.height > adversario.y) {
-        // Personagens colidiram, aplicar dano
-        personagem.vida -= 10;
-        adversario.vida -= 10;
-        }
+                 personagem.x + personagem.img.width > adversario.x &&
+                personagem.y < adversario.y + adversario.img.height &&
+                personagem.y + personagem.img.height > adversario.y) {
+                // Personagens colidiram, aplicar dano
+                personagem.vida -= 10;
+                adversario.vida -= 10;
+            }
         // Verificar se algum personagem foi derrotado
         if (personagem.vida <= 0) {
             // Personagem derrotado, encerrar jogo
