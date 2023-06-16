@@ -1,52 +1,88 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Jogo de Luta Web</title>
+    <title>Jogo de Luta</title>
     <style>
+        /* Estilos do menu */
         #menu {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-family: Arial, sans-serif;
-            font-size: 24px;
-            text-align: center;
+            height: 100vh;
         }
 
-        canvas {
-            border: 1px solid black;
+        #menu h1 {
+            font-size: 48px;
+            color: #FFF;
+            margin-bottom: 20px;
+        }
+
+        #menu .seletor {
+            margin-bottom: 20px;
+        }
+
+        #menu .seletor label {
+            color: #FFF;
+            font-size: 24px;
+        }
+
+        #menu .seletor select {
+            padding: 8px;
+            font-size: 18px;
+        }
+
+        #menu button {
+            padding: 12px 24px;
+            font-size: 24px;
+            background-color: #FF9800;
+            color: #FFF;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Estilos do jogo */
+        #jogoCanvas {
             display: none;
+            margin: 0 auto;
+            background-color: #000;
         }
     </style>
 </head>
 <body>
     <div id="menu">
-        <h1>Jogo de Luta Web</h1>
-        <p>Escolha seu personagem:</p>
-        <select id="seletorPersonagem">
-            <option value="goku">Goku</option>
-            <option value="naruto">Naruto</option>
-            <option value="vegeta">Vegeta</option>
-            <option value="sasuke">Sasuke</option>
-            <option value="gohan">Gohan</option>
-            <option value="boruto">Boruto</option>
-            <option value="luffy">Luffy</option>
-        </select>
+        <h1>Jogo de Luta</h1>
+        <div class="seletor">
+            <label for="seletorPersonagem">Selecione o Personagem:</label>
+            <select id="seletorPersonagem">
+                <option value="goku">Goku</option>
+                <option value="naruto">Naruto</option>
+                <option value="vegeta">Vegeta</option>
+                <option value="sasuke">Sasuke</option>
+                <option value="gohan">Gohan</option>
+                <option value="boruto">Boruto</option>
+                <option value="luffy">Luffy</option>
+            </select>
+        </div>
+        <div class="seletor">
+            <label for="seletorAdversario">Selecione o Adversário:</label>
+            <select id="seletorAdversario">
+                <option value="goku">Goku</option>
+                <option value="naruto">Naruto</option>
+                <option value="vegeta">Vegeta</option>
+                <option value="sasuke">Sasuke</option>
+                <option value="gohan">Gohan</option>
+                <option value="boruto">Boruto</option>
+                <option value="luffy">Luffy</option>
+            </select>
+        </div>
         <button id="iniciar">Iniciar</button>
     </div>
 
     <canvas id="jogoCanvas" width="800" height="600"></canvas>
 
     <script>
-        // Definindo classes dos personagens com sistemas avançados
+        // Classe para representar os personagens
         class Personagem {
             constructor(img, x, y) {
                 this.img = new Image();
@@ -54,197 +90,147 @@
                 this.x = x;
                 this.y = y;
                 this.vida = 100;
-                this.velocidade = 5;
-                this.pontos = 0;
-                this.ataque = 10;
-                this.defesa = 5;
                 this.energia = 100;
-            }
-
-            desenhar(contexto) {
-                contexto.drawImage(this.img, this.x, this.y);
-            }
-
-            moverEsquerda() {
-                this.x -= this.velocidade;
-            }
-
-            moverDireita() {
-                this.x += this.velocidade;
-            }
-
-            atacar(outroPersonagem) {
-                if (this.colideCom(outroPersonagem)) {
-                    const dano = this.ataque - outroPersonagem.defesa;
-                    if (dano > 0) {
-                        outroPersonagem.vida -= dano;
-                        this.pontos += 1;
-                    }
-                }
-            }
-
-            colideCom(outroPersonagem) {
-                return (
-                    this.x < outroPersonagem.x + outroPersonagem.img.width &&
-                    this.x + this.img.width > outroPersonagem.x &&
-                    this.y < outroPersonagem.y + outroPersonagem.img.height &&
-                    this.y + this.img.height > outroPersonagem.y
-                );
-            }
-
-            recuperarEnergia() {
-                if (this.energia < 100) {
-                    this.energia += 0.5;
-                }
+                this.pontos = 0;
             }
         }
 
-        // Selecionando elementos do HTML
-        const canvas = document.getElementById("jogoCanvas");
-        const contexto = canvas.getContext("2d");
-        const seletorPersonagem = document.getElementById("seletorPersonagem");
-
-        // Lista de personagens jogáveis
+        // Configurações dos personagens
         const personagens = {
             goku: {
                 nome: "Goku",
                 img: "https://th.bing.com/th/id/R.cd1fac98320278586bfc71806ff9d15c?rik=o7ysHhfk%2bwfyCA&riu=http%3a%2f%2fpixelartmaker.com%2fart%2f8dbf369e3d231e7.png&ehk=a7rNQz6jha1a4d%2bK9WT0Ygw%2fADF6ZGklSTdFxgFAGr4%3d&risl=&pid=ImgRaw&r=0",
                 x: 100,
-                y: 400
+                y: 300
             },
             naruto: {
                 nome: "Naruto",
                 img: "https://th.bing.com/th/id/OIP.UCZRZiiJ2aWGHXYAK1hK6AAAAA?pid=ImgDet&rs=1",
-                x: 300,
-                y: 400
+                x: 100,
+                y: 300
             },
             vegeta: {
                 nome: "Vegeta",
                 img: "https://pixeljoint.com/files/icons/full/vegetawalkingforwardlikeabaws.gif",
-                x: 500,
-                y: 400
+                x: 100,
+                y: 300
             },
             sasuke: {
                 nome: "Sasuke",
                 img: "https://orig00.deviantart.net/91ee/f/2012/017/0/6/sasuke_avenger_sprite_by_darkest5-d4mq7p7.png",
-                x: 700,
-                y: 400
+                x: 100,
+                y: 300
             },
             gohan: {
                 nome: "Gohan",
                 img: "https://th.bing.com/th/id/R.80a707377117e681b2d66d4f9eb6ac34?rik=PvxqVCyqKK%2fvXA&riu=http%3a%2f%2fpixelartmaker-data-78746291193.nyc3.digitaloceanspaces.com%2fimage%2fa060dd22d6e53a2.png&ehk=%2bPmcqorS05vvvN4YaZoAte4mbkSbhtzMomUzD7F3WrE%3d&risl=&pid=ImgRaw&r=0",
-                x: 900,
-                y: 400
+                x: 100,
+                y: 300
             },
             boruto: {
                 nome: "Boruto",
                 img: "https://orig03.deviantart.net/f9d8/f/2013/301/c/8/c8e72cd897b5c0f72130b203b3560101-d68ksqp.png",
-                x: 1100,
-                y: 400
+                x: 100,
+                y: 300
             },
             luffy: {
                 nome: "Luffy",
                 img: "https://th.bing.com/th/id/R.9e5dd039e15ef8186263eeba8efb4667?rik=gWWdYNPNAQ72bw&pid=ImgRaw&r=0",
-                x: 1300,
-                y: 400
+                x: 100,
+                y: 300
             }
         };
 
-        // Variáveis para controle do jogo
-        let jogoIniciado = false;
-        let jogador;
-        let adversario;
+        // Variáveis do jogo
+        let jogador, adversario;
+        const canvas = document.getElementById("jogoCanvas");
+        const contexto = canvas.getContext("2d");
+        const seletorPersonagem = document.getElementById("seletorPersonagem");
+        const seletorAdversario = document.getElementById("seletorAdversario");
+        const iniciarButton = document.getElementById("iniciar");
 
-        // Função para iniciar o jogo ao clicar no botão "Iniciar"
-        document.getElementById("iniciar").addEventListener("click", () => {
-            jogoIniciado = true;
-            document.getElementById("menu").style.display = "none";
-            canvas.style.display = "block";
-            animarJogo();
-        });
-
-        // Função para animar o jogo
-        function animarJogo() {
-            if (!jogoIniciado) return;
-
-            // Limpar o canvas
+        // Função para renderizar os personagens na tela
+        function renderizarPersonagens() {
             contexto.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Desenhar os personagens com o design melhorado e detalhado
-            jogador.desenhar(contexto);
-            adversario.desenhar(contexto);
-
-            // Movimentação dos personagens
-            if (teclaPressionada["ArrowLeft"]) {
-                jogador.moverEsquerda();
-            }
-
-            if (teclaPressionada["ArrowRight"]) {
-                jogador.moverDireita();
-            }
-
-            // Colisão entre personagens e sistema de ataque
-            if (jogador.colideCom(adversario)) {
-                jogador.atacar(adversario);
-            }
-
-            // Renderização da barra de vida, energia e pontos
-            renderizarBarraVida(jogador, 10, 10, "red");
-            renderizarBarraVida(adversario, 10, 30, "blue");
-            renderizarBarraEnergia(jogador, 10, 50, "yellow");
-            renderizarPontos(jogador, 10, 70);
-
-            // Recuperação de energia ao longo do jogo
-            jogador.recuperarEnergia();
-
-            requestAnimationFrame(animarJogo);
+            contexto.drawImage(jogador.img, jogador.x, jogador.y);
+            contexto.drawImage(adversario.img, adversario.x, adversario.y);
+            renderizarBarraVida(jogador, 20, 20, "green");
+            renderizarBarraVida(adversario, 580, 20, "red");
+            renderizarBarraEnergia(jogador, 20, 40, "blue");
+            renderizarPontos(jogador, 20, 70);
         }
 
-        // Renderiza a barra de vida
+        // Função para atualizar o jogo a cada quadro
+        function atualizarJogo() {
+            // Verificar colisão entre os personagens
+            if (jogador.x < adversario.x + 100 &&
+                jogador.x + 100 > adversario.x &&
+                jogador.y < adversario.y + 100 &&
+                jogador.y + 100 > adversario.y) {
+                // Implemente a lógica de ataque entre os personagens aqui
+                if (personagem.x < adversario.x + adversario.img.width &&
+        personagem.x + personagem.img.width > adversario.x &&
+        personagem.y < adversario.y + adversario.img.height &&
+        personagem.y + personagem.img.height > adversario.y) {
+        // Personagens colidiram, aplicar dano
+        personagem.vida -= 10;
+        adversario.vida -= 10;
+        }
+        // Verificar se algum personagem foi derrotado
+        if (personagem.vida <= 0) {
+            // Personagem derrotado, encerrar jogo
+            encerrarJogo(adversarioSelecionado);
+        } else if (adversario.vida <= 0) {
+            // Adversário derrotado, incrementar pontos e reiniciar o jogo
+            personagem.pontos += 100;
+            reiniciarJogo();
+        }
+            }
+
+            // Atualizar lógica do jogo aqui
+
+            renderizarPersonagens();
+            requestAnimationFrame(atualizarJogo);
+        }
+
+        // Função para iniciar o jogo
+        function iniciarJogo() {
+            const personagemSelecionado = seletorPersonagem.value;
+            const adversarioSelecionado = seletorAdversario.value;
+
+            jogador = new Personagem(personagens[personagemSelecionado].img, personagens[personagemSelecionado].x, personagens[personagemSelecionado].y);
+            adversario = new Personagem(personagens[adversarioSelecionado].img, personagens[adversarioSelecionado].x, personagens[adversarioSelecionado].y);
+
+            document.getElementById("menu").style.display = "none";
+            document.getElementById("jogoCanvas").style.display = "block";
+            atualizarJogo();
+        }
+
+        // Evento de clique no botão iniciar
+        iniciarButton.addEventListener("click", iniciarJogo);
+
+        // Função para renderizar a barra de vida do personagem
         function renderizarBarraVida(personagem, x, y, cor) {
+            contexto.fillStyle = "black";
+            contexto.fillRect(x, y, 100, 10);
             contexto.fillStyle = cor;
             contexto.fillRect(x, y, personagem.vida, 10);
         }
 
-        // Renderiza a barra de energia
+        // Função para renderizar a barra de energia do personagem
         function renderizarBarraEnergia(personagem, x, y, cor) {
+            contexto.fillStyle = "black";
+            contexto.fillRect(x, y, 100, 10);
             contexto.fillStyle = cor;
             contexto.fillRect(x, y, personagem.energia, 10);
         }
 
-        // Renderiza os pontos
+        // Função para renderizar os pontos do personagem
         function renderizarPontos(personagem, x, y) {
             contexto.fillStyle = "white";
-            contexto.font = "20px Arial";
+            contexto.font = "24px Arial";
             contexto.fillText("Pontos: " + personagem.pontos, x, y);
         }
-
-        // Eventos de teclado
-        const teclaPressionada = {};
-
-        window.addEventListener("keydown", (event) => {
-            teclaPressionada[event.key] = true;
-        });
-
-        window.addEventListener("keyup", (event) => {
-            teclaPressionada[event.key] = false;
-        });
-
-        // Função para iniciar o jogo com o personagem selecionado
-        function iniciarJogo() {
-            const personagemSelecionado = seletorPersonagem.value;
-
-            jogador = new Personagem(personagens[personagemSelecionado].img, personagens[personagemSelecionado].x, personagens[personagemSelecionado].y);
-
-            // Selecionar um adversário aleatório
-            const adversarios = Object.keys(personagens).filter((personagem) => personagem !== personagemSelecionado);
-            const adversarioSelecionado = adversarios[Math.floor(Math.random() * adversarios.length)];
-
-            adversario = new Personagem(personagens[adversarioSelecionado].img, personagens[adversarioSelecionado].x, personagens[adversarioSelecionado].y);
-        }
-
-        // Iniciar o jogo quando o personagem for selecionado
-        seletorPersonagem.addEventListener("change", iniciarJogo);
     </script>
 </body>
 </html>
