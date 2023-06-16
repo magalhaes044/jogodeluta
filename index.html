@@ -14,7 +14,7 @@
 
         #menu h1 {
             font-size: 48px;
-            color: #FFF;
+            color: #FF9800;
             margin-bottom: 20px;
         }
 
@@ -23,7 +23,7 @@
         }
 
         #menu .seletor label {
-            color: #FFF;
+            color: #FF9800;
             font-size: 24px;
         }
 
@@ -45,7 +45,7 @@
         #jogoCanvas {
             display: none;
             margin: 0 auto;
-            background-color: #000;
+            background-color: #f4f4f4;
         }
     </style>
 </head>
@@ -90,11 +90,14 @@
                 this.x = x;
                 this.y = y;
                 this.vida = 100;
-                this.energia = 100;
+                this.velocidade = 5;
                 this.pontos = 0;
+                this.ataque = 10;
+                this.defesa = 5;
+                this.energia = 100;
             }
         }
-
+        
         // Configurações dos personagens
         const personagens = {
             goku: {
@@ -148,6 +151,7 @@
         const seletorPersonagem = document.getElementById("seletorPersonagem");
         const seletorAdversario = document.getElementById("seletorAdversario");
         const iniciarButton = document.getElementById("iniciar");
+        
 
         // Função para renderizar os personagens na tela
         function renderizarPersonagens() {
